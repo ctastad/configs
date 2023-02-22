@@ -10,7 +10,6 @@ A repository for hosting Nextflow configuration files containing custom paramete
   - [Configuration and parameters](#configuration-and-parameters)
   - [Offline usage](#offline-usage)
 - [Adding a new config](#adding-a-new-config)
-  - [Checking user hostnames](#checking-user-hostnames)
   - [Testing](#testing)
   - [Documentation](#documentation)
   - [Uploading to `nf-core/configs`](#uploading-to-nf-coreconfigs)
@@ -68,6 +67,8 @@ Before adding your config file to nf-core/configs, we highly recommend writing a
 N.B. In your config file, please also make sure to add an extra `params` section with `params.config_profile_description`, `params.config_profile_contact` and `params.config_profile_url` set to reasonable values.
 Users will get information on who wrote the configuration profile then when executing a nf-core pipeline and can report back if there are things missing for example.
 
+N.B. If you try to specify a shell environment variable within your profile, in some cases you may get an error during testing of something like `Unknown config attribute env.USER_SCRATCH -- check config file: /home/runner/work/configs/configs/nextflow.config` (where the bash environment variable is `$USER_SCRATCH`). This is because the github runner will not have your institutional environment variables set. To fix this you can define this as an internal variable, and set a fallback value for that variable. A good example is in the [VSC_UGENT profile](`https://github.com/nf-core/configs/blob/69468e7ca769643b151a6cfd1ab24185fc341c06/conf/vsc_ugent.config#L2`).
+
 ### Testing
 
 If you want to add a new custom config file to `nf-core/configs` please test that your pipeline of choice runs as expected by using the [`-c`](https://www.nextflow.io/docs/latest/config.html) parameter.
@@ -87,6 +88,7 @@ See [`nf-core/configs/docs`](https://github.com/nf-core/configs/tree/master/docs
 Currently documentation is available for the following systems:
 
 - [ABIMS](docs/abims.md)
+- [ADCRA](docs/adcra.md)
 - [ALICE](docs/alice.md)
 - [AWSBATCH](docs/awsbatch.md)
 - [AWS_TOWER](docs/aws_tower.md)
@@ -100,13 +102,17 @@ Currently documentation is available for the following systems:
 - [CCGA_DX](docs/ccga_dx.md)
 - [CCGA_MED](docs/ccga_med.md)
 - [Cedars-Sinai](docs/cedars.md)
+- [Ceres](docs/ceres.md)
 - [CFC](docs/cfc.md)
 - [CHEAHA](docs/cheaha.md)
 - [Computerome](docs/computerome.md)
 - [CRICK](docs/crick.md)
+- [Cancer Research UK Manchester Institute](docs/crukmi.md)
 - [CZBIOHUB_AWS](docs/czbiohub.md)
 - [DENBI_QBIC](docs/denbi_qbic.md)
+- [DKFZ](docs/dkfz.md)
 - [EBC](docs/ebc.md)
+- [Engaging](docs/engaging.md)
 - [EVA](docs/eva.md)
 - [FGCZ](docs/fgcz.md)
 - [GENOTOUL](docs/genotoul.md)
@@ -115,12 +121,17 @@ Currently documentation is available for the following systems:
 - [GOOGLE](docs/google.md)
 - [HASTA](docs/hasta.md)
 - [HEBBE](docs/hebbe.md)
+- [HKI](docs/hki.md)
 - [ICR_DAVROS](docs/icr_davros.md)
 - [IMPERIAL](docs/imperial.md)
 - [JAX](docs/jax.md)
+- [KU SUND DANGPU](docs/ku_sund_dangpu.md)
 - [LUGH](docs/lugh.md)
 - [MAESTRO](docs/maestro.md)
+- [Mana](docs/mana.md)
 - [MARVIN](docs/marvin.md)
+- [MEDAIR](docs/medair.md)
+- [MJOLNIR_GLOBE](docs/mjolnir_globe.md)
 - [MPCDF](docs/mpcdf.md)
 - [MUNIN](docs/munin.md)
 - [NU_GENOMICS](docs/nu_genomics.md)
@@ -129,9 +140,15 @@ Currently documentation is available for the following systems:
 - [PASTEUR](docs/pasteur.md)
 - [PHOENIX](docs/phoenix.md)
 - [PRINCE](docs/prince.md)
+- [PSMN](docs/psmn.md)
 - [ROSALIND](docs/rosalind.md)
+- [SAGE BIONETWORKS](docs/sage.md)
 - [SANGER](docs/sanger.md)
+- [SBC_SHARC](docs/sbc_sharc.md)
 - [SEG_GLOBE](docs/seg_globe.md)
+- [Super Computing Wales](docs/scw.md)
+- [TIGEM](docs/tigem.md)
+- [UCL_MYRIAD](docs/ucl_myriad.md)
 - [UCT_HPC](docs/uct_hpc.md)
 - [UNIBE_IBU](docs/unibe_ibu.md)
 - [UPPMAX](docs/uppmax.md)
@@ -139,6 +156,8 @@ Currently documentation is available for the following systems:
 - [UTD_SYSBIO](docs/utd_sysbio.md)
 - [UZH](docs/uzh.md)
 - [VAI](docs/vai.md)
+- [VSC_UGENT](docs/vsc_ugent.md)
+- [WEHI](docs/wehi.md)
 
 ### Uploading to `nf-core/configs`
 
@@ -190,15 +209,37 @@ Currently documentation is available for the following pipelines within specific
 - ampliseq
   - [BINAC](docs/pipeline/ampliseq/binac.md)
   - [UPPMAX](docs/pipeline/ampliseq/uppmax.md)
+- atacseq
+  - [SBC_SHARC](docs/pipeline/atacseq/sbc_sharc.md)
+- chipseq
+  - [SBC_SHARC](docs/pipeline/chipseq/sbc_sharc.md)
+- demultiplex
+  - [AWS_TOWER](docs/pipeline/demultiplex/aws_tower.md)
 - eager
   - [EVA](docs/pipeline/eager/eva.md)
+- funcscan
+  - [HKI](docs/pipeline/funcscan/hki.md)
+- mag
+  - [Engaging](docs/pipeline/mag/engaging.md)
+  - [EVA](docs/pipeline/mag/eva.md)
 - rnafusion
+  - [HASTA](docs/pipeline/rnafusion/hasta.md)
   - [MUNIN](docs/pipeline/rnafusion/munin.md)
-- sarek
-  - [MUNIN](docs/pipeline/sarek/munin.md)
-  - [UPPMAX](docs/pipeline/sarek/uppmax.md)
+- rnaseq
+  - [SBC_SHARC](docs/pipeline/rnaseq/sbc_sharc.md)
 - rnavar
   - [MUNIN](docs/pipeline/rnavar/munin.md)
+- sarek
+  - [Cancer Research UK Manchester Institute](docs/pipeline/sarek/crukmi.md)
+  - [EVA](docs/pipeline/sarek/eva.md)
+  - [MUNIN](docs/pipeline/sarek/munin.md)
+  - [SBC_SHARC](docs/pipeline/sarek/sbc_sharc.md)
+  - [UPPMAX](docs/pipeline/sarek/uppmax.md)
+- taxprofiler
+  - [EVA](docs/pipeline/taxprofiler/eva.md)
+  - [hasta](docs/pipeline/taxprofiler/hasta.md)
+- proteinfold
+  - [CRG](docs/pipeline/proteinfold/crg.md)
 
 ### Pipeline-specific documentation
 
